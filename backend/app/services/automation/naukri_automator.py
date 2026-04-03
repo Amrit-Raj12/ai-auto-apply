@@ -96,11 +96,18 @@ class NaukriAutomator:
             print(f"Login failed: {e}")
             return False
 
-    def search_jobs(self, keywords, location=""):
-        print(f"Searching for {keywords} in {location}...")
+    def search_jobs(self, keywords, location="", experience=""):
+        print(f"Searching for '{keywords}' in '{location}' with experience '{experience}'...")
         search_url = f"{self.base_url}/jobs-in-{location.replace(' ', '-')}" if location else f"{self.base_url}/jobs-in-india"
+        
+        query_params = []
         if keywords:
-            search_url += f"?k={keywords.replace(' ', '%20')}"
+            query_params.append(f"k={keywords.replace(' ', '%20')}")
+        if experience:
+            query_params.append(f"experience={experience}")
+            
+        if query_params:
+            search_url += "?" + "&".join(query_params)
             
         self.page.goto(search_url)
         print(f"Navigated to: {search_url}")

@@ -24,9 +24,11 @@ class IntentService:
             if intent == "APPLY_JOBS":
                 keyword = entities.get("keyword", "Software Engineer")
                 limit = entities.get("limit", 10)
+                location = entities.get("location", "")
+                experience = entities.get("experience", "")
                 
                 # 2. Start Automator (Run in separate thread)
-                print(f"Starting automation thread for: {keyword}")
+                print(f"Starting automation thread for: limit={limit}, keyword='{keyword}', location='{location}', experience='{experience}'")
                 await asyncio.to_thread(self.automator.start)
                 
                 # 3. Login
@@ -37,7 +39,7 @@ class IntentService:
                     await asyncio.to_thread(self.automator.login, email, password)
 
                 # 4. Search and Process
-                jobs_data = await asyncio.to_thread(self.automator.search_jobs, keyword)
+                jobs_data = await asyncio.to_thread(self.automator.search_jobs, keyword, location, experience)
                 
                 for job_data in jobs_data[:min(len(jobs_data), limit)]:
                     # Save job to DB (Check if exists first to avoid duplicates)

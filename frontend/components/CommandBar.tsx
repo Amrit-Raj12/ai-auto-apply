@@ -21,6 +21,7 @@ export default function CommandBar() {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [response, setResponse] = useState<any>(null);
   const recognitionRef = useRef<any>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Sound utility
   const playSFX = (url: string) => {
@@ -38,6 +39,7 @@ export default function CommandBar() {
   const toggleListening = async () => {
     if (isListening) {
       recognitionRef.current?.stop();
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
       setStatus("Stopped.");
       return;
     }
@@ -66,7 +68,7 @@ export default function CommandBar() {
 
     // Step 3: Initialize recognition directly on click
     const recognition = new SpeechRecognition();
-    recognition.continuous = false; 
+    recognition.continuous = true; 
     recognition.interimResults = true;
     recognition.lang = 'en-US';
 
@@ -83,6 +85,16 @@ export default function CommandBar() {
       transcriptRef.current = transcript;
       setCommand(transcript);
       setStatus("Typing...");
+
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      
+      timeoutRef.current = setTimeout(() => {
+        if (recognitionRef.current) {
+          recognitionRef.current.stop();
+        }
+      }, 3000);
     };
 
     recognition.onerror = (event: any) => {
@@ -113,6 +125,7 @@ export default function CommandBar() {
   const handleSendCommand = async (text: string = command) => {
     if (!text.trim()) return;
     
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
     if (isListening) recognitionRef.current?.stop();
 
     playSFX(SOUNDS.SEND);
