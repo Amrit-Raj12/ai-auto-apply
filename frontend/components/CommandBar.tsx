@@ -169,17 +169,17 @@ export default function CommandBar() {
           onChange={(e) => setCommand(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSendCommand()}
           placeholder={isListening ? "Listening... Speak now" : 'Try "Apply latest 10 jobs" or click the mic...'}
-          className="w-full bg-slate-900/50 border border-slate-700 rounded-2xl py-4 pl-12 pr-32 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all backdrop-blur-md text-white placeholder:text-slate-500 shadow-2xl"
+          className="w-full bg-white/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700/50 rounded-3xl py-4 pl-12 pr-32 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all backdrop-blur-2xl text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-[0_20px_60px_rgba(30,58,138,0.15)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.8)] hover:shadow-[0_20px_70px_rgba(30,58,138,0.25)] dark:hover:shadow-[0_20px_70px_rgba(0,0,0,0.9)]"
         />
         <div className="absolute inset-y-2 right-2 flex items-center space-x-2">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={toggleListening}
-            className={`p-2.5 rounded-xl transition-all flex items-center justify-center ${
+            className={`p-2.5 rounded-full transition-all flex items-center justify-center ${
               isListening 
                 ? 'bg-blue-600 shadow-[0_0_20px_rgba(37,99,235,0.4)] text-white' 
-                : 'hover:bg-slate-800 text-slate-400'
+                : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400'
             }`}
           >
             {isListening ? (
@@ -197,7 +197,7 @@ export default function CommandBar() {
             whileTap={{ scale: 0.95 }}
             onClick={() => handleSendCommand()}
             disabled={isLoading || !command.trim()}
-            className="bg-blue-600 hover:bg-blue-700 disabled:opacity-30 disabled:cursor-not-allowed text-white p-2.5 rounded-xl px-5 transition-all shadow-lg flex items-center space-x-2 group focus:outline-none"
+            className="bg-blue-600 hover:bg-blue-700 disabled:opacity-30 disabled:cursor-not-allowed text-white p-2.5 rounded-full px-5 transition-all shadow-lg shadow-blue-500/20 flex items-center space-x-2 group focus:outline-none"
           >
             {isLoading ? (
               <Loader2 className="w-5 h-5 animate-spin" />
@@ -236,9 +236,9 @@ export default function CommandBar() {
             initial={{ opacity: 0, y: 10, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="bg-blue-600/10 border border-blue-500/20 rounded-2xl p-4 flex items-start space-x-4 backdrop-blur-sm shadow-xl"
+            className="bg-blue-50/80 dark:bg-blue-600/10 border border-blue-100 dark:border-blue-500/20 rounded-[2rem] p-5 flex items-start space-x-4 backdrop-blur-xl shadow-[0_20px_60px_rgba(30,58,138,0.15)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.8)]"
           >
-            <div className="p-2.5 bg-blue-600 rounded-lg shadow-inner">
+            <div className="p-2.5 bg-blue-600 rounded-xl shadow-[0_10px_30px_rgba(37,99,235,0.4)]">
               <Play className="w-4 h-4 text-white" />
             </div>
             <div className="flex-1">
@@ -246,7 +246,7 @@ export default function CommandBar() {
                 <h4 className="text-blue-400 font-semibold text-xs uppercase tracking-widest">System Response</h4>
                 <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
               </div>
-              <p className="text-slate-100 text-sm mt-1 leading-relaxed">
+              <p className="text-slate-700 dark:text-slate-200 text-sm mt-1 leading-relaxed">
                 {response.message || JSON.stringify(response)}
               </p>
             </div>
