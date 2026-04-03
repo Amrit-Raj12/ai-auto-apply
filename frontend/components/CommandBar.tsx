@@ -176,7 +176,7 @@ export default function CommandBar() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={toggleListening}
-            className={`p-2.5 rounded-full transition-all flex items-center justify-center ${
+            className={`p-2.5 rounded-full transition-all flex items-center justify-center cursor-pointer ${
               isListening 
                 ? 'bg-blue-600 shadow-[0_0_20px_rgba(37,99,235,0.4)] text-white' 
                 : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400'
@@ -197,7 +197,7 @@ export default function CommandBar() {
             whileTap={{ scale: 0.95 }}
             onClick={() => handleSendCommand()}
             disabled={isLoading || !command.trim()}
-            className="bg-blue-600 hover:bg-blue-700 disabled:opacity-30 disabled:cursor-not-allowed text-white p-2.5 rounded-full px-5 transition-all shadow-lg shadow-blue-500/20 flex items-center space-x-2 group focus:outline-none"
+            className="bg-blue-600 hover:bg-blue-700 disabled:opacity-30 disabled:cursor-not-allowed text-white p-2.5 rounded-full px-5 transition-all shadow-lg shadow-blue-500/20 flex items-center space-x-2 group focus:outline-none cursor-pointer"
           >
             {isLoading ? (
               <Loader2 className="w-5 h-5 animate-spin" />
