@@ -70,6 +70,20 @@ def get_jobs(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
         })
     return results
 
+@app.delete("/jobs/{job_id}")
+def delete_job(job_id: int, db: Session = Depends(get_db)):
+    job = db.query(models.Job).filter(models.Job.id == job_id).first()
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    
+    # Clean up associated applications first (no cascade setup on the ORM relationship)
+    db.query(models.Application).filter(models.Application.job_id == job_id).delete()
+    
+    # Delete the job record entirely
+    db.delete(job)
+    db.commit()
+    return {"success": True, "message": f"Job {job_id} deleted."}
+
 @app.get("/stats")
 def get_stats(db: Session = Depends(get_db)):
     total_jobs = db.query(models.Job).count()
